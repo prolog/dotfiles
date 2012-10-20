@@ -1,0 +1,6 @@
+D
+OPTIONS=showexp,color,!autopickup
+OPTIONS=catname:Cat,dogname:Tuxley,horsename:Shadow
+OPTIONS=fruit:mango
+OPTIONS=number_pad:1
+
