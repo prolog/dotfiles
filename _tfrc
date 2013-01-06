@@ -1,0 +1,275 @@
+; Tir's tricks
+;
+; Written by Tir <jcd748@mail.usask.ca>
+; October 2005
+
+
+/echo Loading Aardwolf macros and triggers.
+
+; void trigger
+/def -t"*You disappear into the void." getback = who sucker %; who boring
+
+; auto triggers - skills and wakeup
+/def -t"*In your dreams, or what?" wakeup = wake
+
+; get the resistances/vulns of a player
+
+/def checkout = /set getdata=1 %; finger %{1} %; /unset getdata
+/def getresists = /if (%{1} =~ "human") gt @W%{2} (%{1})@Y. @RVulns: None@Y; @GResists: None@Y %; /elseif (%{1} =~ "dwarf") gt @W%{2} (%{1})@Y. @RVulns: Water (-76/-51), Air (-28/-3)@Y; @GResists: Bash (12), Earth (61/86), Magic (21/46)@Y %; /elseif (%{1} =~ "elf") gt @W%{2} (%{1})@Y. @RVulns: Bash (-12), Negative (-35/-10)@Y; @GResists: Disease (17/42), Light (29/54)@Y %; /elseif (%{1} =~ "giant") gt @W%{2} (%{1})@Y. @RVulns: Mental (-71/46), Sonic (-31/-6)@Y; @GResists: Earth (14/39), Cold (41/66), Fire (43/68)@Y %; /elseif (%{1} =~ "halfling") gt @W%{2} (%{1})@Y. @RVulns: Water (-29/-4)@Y; @GResists: Bash (14), Poison (19/44), Mental (41/66)@Y %; /elseif (%{1} =~ "half-griffon") gt @W%{2} (%{1})@Y. @RVulns: Bash (-57)@Y; @GResists: Mental (31/56), Air (33/58)@Y %; /elseif (%{1} =~ "troll") gt @W%{2} (%{1})@Y. @RVulns: Acid (-93/-68), Fire (-54/-29)@Y; @GResists: Earth (18/43), Bash (24), Pierce (27), Slash (28)@Y %; /elseif (%{1} =~ "sprite") gt @W%{2} (%{1})@Y. @RVulns: Acid (-32/-7), Bash (-4), Slash (-4)@Y; @GResists: Magic (41/66), Mental (18/43)@Y %; /elseif (%{1} =~ "quickling") gt @W%{2} (%{1})@Y. @RVulns: Magic (-37/-12)@Y; @GResists: Sonic (11/36), Energy (34/69)@Y %; /elseif (%{1} =~ "dark") gt @W%{2} (Dark Elf)@Y. @RVulns: Light (-59/-34), Holy (-34/-9)@Y; @GResists: Disease (7/32), Poison (9/34), Shadow (31/56), Negative (39/64)@Y %; /elseif (%{1} =~ "centaur") gt @W%{2} (%{1})@Y. @RVulns: Bash (-19)@Y; @GResists: Pierce (29/54)@Y %; /elseif (%{1} =~ "vampire") gt @W%{2} (%{1})@Y. @RVulns: Light (-91/66), Holy (-40/-15), Fire (-32/-7)@Y; @GResists: Cold (17/42), Poison (19/44), Disease (29/54), Shadow (31/56), Negative (54/79)@Y %; /elseif (%{1} =~ "wolfen") gt @W%{2} (%{1})@Y.@ @RVulns: Fire (-38/-13)@Y; @GResists: Slash (13), Disease (21/46), Cold (34/59)@Y %; /elseif (%{1} =~ "ratling") gt @W%{2} (%{1})@Y. @RVulns: Bash (-29), Mental (-37/-13), Negative (-33/-8)@Y; @GResists: Acid (19/44), Poison(25/50), Disease (51/76)@Y %; /elseif (%{1} =~ "diva") gt @W%{2} (%{1})@Y. @RVulns: Cold (-51/-26), Fire (-35/-10)@Y; @GResists: Poison/Disease (6/31), Slash (33), Earth (60/85)@Y %; /elseif (%{1} =~ "shadow") gt @W%{2} (%{1})@Y. @RVulns: Light (-102/-77), Air (-39/-14)@Y; @GResists: Bash (6), Pierce (7), Negative (27/52), Shadow (68/93)@Y %; /elseif (%{1} =~ "triton") gt @W%{2} (%{1})@Y. @RVulns: Lightning (-75/-50)@Y; @GResists: Cold (34/59), Water (62/87)@Y %; /elseif (%{1} =~ "lizardman") gt @W%{2} (%{1})@Y. @RVulns: Cold (-58/-33), Air (-39/-14), Pierce (-13)@Y; @GResists: Fire (14/39), Acid (34/59), Poison (58/83)@Y %; /elseif (%{1} =~ "eldar") gt @W%{2} (%{1})@Y. @RVulns: Slash (-42), Disease (-29/-4)@Y; @GResists: All magics (7/32) except Poison (-23/2)@Y %; /endif
+            
+
+/def -mregexp -t"Player : ([^ ])" name = /set name %{4}
+/def -mregexp -t"^Level [0-9]+ (male|female) ([^ ])" foo = /getresists %{4} %{name}
+
+; NOTE: NEED TO DEFINE GETRESISTS AND TELLME
+
+; quest triggers
+/def -t"QUEST: You may now quest again." foobar = ; @cT@mime to @cQ@muest@Y.
+
+; spellup macro
+/def spellupall = /stats %{1} %; /armor %{1} %; /misc %{1} %; /resistup %{1} %; /speed %{1}
+
+/def newbie = cast bless %; cast blur %; cast armor %; cast shield %; cast enh %; sneak %; sluagh
+/def paladin = cast bless %{1} %; cast protection %; cast aid %{1} %; cast detect %; cast call %; cast champion %; cast 'holy aura' %; c 'true seeing' %{1}
+
+; resistance spells
+/def resistup = cast warmth %{1} %; cast globe %{1} %; cast acidproof %{1} %; cast shockproof %{1} %; c true %{1} %; c 'holy mirror' %{1}
+/def vanish = cast pass %; sneak %; invis
+/def armor = cast armor %{1} %; cast shield %{1} %; cast line %{1} %; cast 'magic circle' %{1} %; cast rally %{1} %; cast stone %{1} %; cast avoidance %{1} %; c blur %{1}
+
+; statistic spells
+/def stats = cast aid %{1} %; cast prayer %{1} %; cast revelation %{1} %; cast 'godly embrace' %{1} %; cast enlightenment %{1} %; cast divine %{1} %; cast mystic %{1} %; cast giant %{1} %; cast perception %{1} %; cast wraith %{1} %; c harden %{1} %; c 'awakening' %{1} %; cast 'magical rush' %{1} %; cast 'indestructible aura' %{1}
+/def misc = cast protection %; sluagh %; cast absorb %{1} %; cast 'grey aura' %{1} %; cast sustenance %{1}
+/def speed = cast haste %{1} %; cast lightspeed %{1}
+
+
+; SPEEDWALKS
+;
+; Most speedwalks are from Mota.
+;
+/def sw_there = run ssswssse
+/def sw_back = run wnnnennn
+
+/def to_recall = run de %;
+
+/def sw_pixie = /to_recall %; run 2s6ene3n9e4n
+/def sw_giant = /to_recall %; run 3sw2swdwn4w2swnwse3n %; open w %; run w %; open w %; run 2w2s
+/def sw_zoo = /to_recall %; run 3sw2swdwn4w2swnws
+
+/def sw_legend = /to_recall %; run 2s3e %; open east %; run 6en2en2ese
+/def sw_aarakocran = /to_recall %; run 2s3e %; open east %; run 3eunu3ne2n5ened2w2n2w2su
+/def sw_guild = /to_recall %; run u
+/def sw_amusement = /to_recall %; run 3sw2swu
+/def sw_greece = /to_recall %; run 3sw2swuse2n2e2nw
+/def sw_antharia = /to_recall %; run 3sw2swd4nes2ed
+/def sw_melody = /to_recall %; run 3s3w6s2e2se
+/def sw_reinhold = /to_recall %; run 2s3w4ne %; open s %; run s3w2n %; open s %; run s2wn3ws2w2n
+/def sw_chapelcata = /to_recall %; run 4sds4e2ne8d %; open w %;  run 10w3s2w3s6w2s2w4s5es
+/def sw_chessboard = /to_recall %; run 3s2wu
+/def sw_play = /to_recall %; run 2s3w4ne %; open s %; run s3wn9e2n2e
+/def sw_crystalmir = /to_recall %; run 3sw2swn4w3nw
+/def sw_dangerous = /to_recall %; run 8ses2ese
+/def sw_manor = /to_recall %; run 2s3e %; open east %; run 3ene %; open north %;  run 3n10en
+/def sw_den = /to_recall %; run 3s3w6s2e4se2sw2s
+/def sw_gloom = /to_recall %; run 2s3w4ne %; open s %; run s3w2n %; open south %; run 2s2e2se4ues
+/def sw_dortmund = /to_recall %; run 4sds4eu9w3su2wn5w
+/def sw_cult = /to_recall %; run 3sw2swns2e4n4e
+/def sw_dragontower = /to_recall %; run 3sw2swns2e3nw
+/def sw_dwarvencata = /to_recall %; run 2s3e %; open east %; run 3eunuw
+/def sw_dwarvenkingdom = /to_recall %; run 2s3e %; open east %; run 3eunuwu %; open south %; run sesw %; open south %; run 2s3w3s
+/def sw_dwarvenmines = /to_recall %; run sswww %; open west %; run 4ws2wn2wn3wn2w2n %; open w %; run w2n %; open west %; w %; vis %; buy 1 %; run en3e %; open east %; run 2es %; vis %; buy permit %; run n2ws3d
+/def sw_dragonsea = /to_recall %; run 3sw2swd4nese
+/def sw_moriaroad = /to_recall %; run 2s3w4ne %; open south %; run s3w2n %; open south %; run 10s
+/def sw_coastfollow1 = /to_recall %; run sseee %; open east %; run e3n2w3nw2n8w3nene6n
+/def sw_coastfollow2 = /to_recall %; run 2s3e %; open e %; run e3n2w3nw2n8w3nene6ne2n2e3ne3nw
+/def sw_tothmeer = /to_recall %; run 2s3w4ne %; open south %; run s3w2n %; open south %; run sw
+/def sw_elemental = /to_recall %; run 2s3e %; open east %; run 3eun2ud2sws2wnw
+/def sw_fantasy = /to_recall %; run 3sw2s2w %; open east %; run eswnw2sw2s
+/def sw_haondor = /to_recall %; run sswww %; open west %; run w3n2e3nw2n
+/def sw_terramire = /to_recall %; run 4sds4e2ne3d
+/def sw_galaxy = /to_recall %; run 4sdnwnwu2enen5u9nu %; open up %; run un2dn
+/def sw_gauntlet = /to_recall %; run 2s3e %; open east %; run 6en2enen
+/def sw_gnome = /to_recall %; run 2s3e %; open east %; run 3eun2udnw3n4w2ne
+/def sw_path = /to_recall %; run 2s3e %; open east %; run 3ene
+/def sw_graveyard = /to_recall %; run 2s3e %; open east %; run 3e3se2s2e2s
+/def sw_hightower = /to_recall %; run 3sw2swnsen
+/def sw_highlands = /to_recall %; run 2s3e %; open east %; run 3eunu3ne2n2e3ne2nw2nen
+/def sw_holygrove = /to_recall %; run 4sdnwnwu2w3se3ses
+/def sw_orlando = /to_recall %; run 6s2e2s2wn
+/def sw_infestation = /to_recall %; run 3sw2swu2s
+/def sw_stardock = /to_recall %; run 2s3e %; open east %; run 3ene %; open n %; run 3n4en %; enter mandala
+/def sw_quake = /to_recall %; run 3sw2swd3wsw2sen
+/def sw_verume = /to_recall %; run 2s3w %; open west %; run 4ws2wn2wn3wnw2nwndn2w2nwnwnw3n7ws3wn
+/def sw_mahntor = /to_recall %; run 3sw2swd2w
+/def sw_kerofk = /to_recall %; run 2s3w4ne %; open s %; run s3wnwn
+/def sw_ahner = /to_recall %; run 3sws %; open south %; run swns2e3ne
+/def sw_juargan = /to_recall %; run 2s3w4ne %; open south %; run s3w2n %; open south %; run snese3s3e
+/def sw_kultiras = /to_recall %; run 2s3e %; open east %; run 3eunu5n2w
+/def sw_dominia = /to_recall %; run 2s3w4n2e5nw2n2w6ws3w2n
+/def sw_beer = /to_recall %; run 2s3w %; open west %; run w4n
+/def sw_newts = /to_recall %; run 3sw2swn3ses2ese3se3sesw2se
+/def sw_lenny = /to_recall %; run 2s3e %; run 3eun2udnwne
+/def sw_atlantis = /to_recall %; run 3sw2swd4nes2en2wdene3d
+/def sw_hodgepodge = /to_recall %; run 3sw2swu2s2w6n
+/def sw_market = run d2se %; enter market
+/def sw_megacity = run d2se %; enter mega
+/def sw_mobfactory = /to_recall %; run 2s3e %; open east %; run 3e3s2e
+/def sw_moria = /to_recall %; run 4sds4e2ne8d %; open w %; run w4nd
+/def sw_olympus = /to_recall %; run 4sdnwnwu2enenu
+/def sw_newthalos = /to_recall %; run 4sds4eu
+/def sw_northern = /to_recall %; run 2s3e %; open e %; run e3n2wn
+/def sw_northern2 = /to_recall %; run 2s3e %; open e %; run e3n2wn2nw2n8w3n
+/def sw_oldthalos = /to_recall %; run 4sds4eu6n %; open north %; run 4nw
+/def sw_carnivale = /to_recall %; run 2s6eun2udnw3ne
+/def sw_orchard = /to_recall %; run 2s3e %; open east %; run 3e3n
+/def sw_plains = /to_recall %; run 2s3e %; open east %; run 3eunun
+/def sw_port = /to_recall %; run 3sw2swde
+/def sw_prison = /to_recall %; run 8swswnde2un
+/def sw_lair = /to_recall %; run s2end
+/def sw_dragonriver = /to_recall %; run 2s3e %; open e %; run 3e2sdwnws
+/def sw_grayhare = /to_recall %; run 3s2e2s4wswn2wnwnw2n3wn
+/def sw_watercourse = /to_recall %; run 3s2e2s4w
+/def sw_watercourse2 = /to_recall %; run 3s2e2s3e
+/def sw_mountaingoat = /to_recall %; run 3s2e2s4wswn2wnw2n
+/def sw_mountaingoat2 = /to_recall %; run 3s2e2s4wswn2wnw2ne2nene4nw4ne2n2w2n3w
+/def sw_sorrow = /to_recall %; run 2s3e %; open east %; run 6en2en2ese
+/def sw_sewers = /to_recall %; run 4sd
+/def sw_volcano = /to_recall %; run 2s3w4ne %; open s %; run s3wnw2n2w2wn2w2nwnw2sws2w2s3wsw
+/def sw_churchroad = /to_recall %; run 2s3e %; open e %; run 3e3se
+/def sw_deadtroll = /to_recall %; run 2s3w %; open west %; run 4ws2wn2wn3wnw4s3w4s2w2ses2esese
+/def sw_deadtroll2 = /to_recall %; run 2s3w %; open west %; run 4ws2wn2wn3wnw4s3w4s2w2ses2esese2nen8e
+/def sw_desertroad = /to_recall %; run 2s3e %; open e %; run 4e
+/def sw_dragonroad = /to_recall %; run 3s3w6s2e2s
+/def sw_dragonroad2 = /to_recall %; run 3s3w6s2e4se2sw2sw3sdw4s
+/def sw_marshroad = /to_recall %; run 3s3w6s2e4se2sw2sws7w
+/def sw_towerroad = /to_recall %; run 2s3w %; open w %; run 4ws2wn2wn3wnws
+/def sw_storm = /to_recall %; run 3sw2swn4w3nwd5w3nwn
+/def sw_shouggoth = /to_recall %; run 2s3e %; open east %; run 3eunue
+/def sw_lotus = /to_recall %; run 2s3w4ne %; open s %; run s3w2n %; open s %; run s2wn2ws
+/def sw_camps = /to_recall %; run 3s2e2s3es2e
+/def sw_ofcol = /to_recall %; run 4sdnwnwuw
+/def sw_newofcol = /to_recall %; run 4sdnwnwu
+/def sw_solace = /to_recall %; run 3sw2swn
+/def sw_ultima = /to_recall %; run 3sw2sws2w3sese
+/def sw_underdark = /to_recall %; run 4sds4e2ne8d %; open west %; run w
+/def sw_valley = /to_recall %; run 2s3e %; open east %; run 3eunun3swsws
+/def sw_wizards = /to_recall %; run 3sw2swd3wn2w2swn2w2s
+/def sw_westerncontinent = /to_recall %; run 2s3w %; open w %; 4ws2wn2wn3wnw2nwndn2w2nwnwnw3n7ws10w2nw
+/def sw_dangerpass = /to_recall %; run 3s2e2s4wswn2wnw2ne2nene4nw4ne2nuwswnwn
+/def sw_granite = /to_recall %; run 2s3w %; open w %; run 3w
+/def sw_northerntrade =  /to_recall %; run 2s3e %; open e %; run e3n2wn
+/def sw_northerntrade2 = /to_recall %; run 2s3e %; open e %; run e3n2wn2nw2n8w3n
+/def sw_olympian = /to_recall %; run 4sdnwnwu2en
+/def sw_roadelemental = /to_recall %; run 2s3w %; open w %; run 4ws2wn2wn3wnw2nwnwn3w
+/def sw_western = /to_recall %; run 2s3w %; open w %; run 4ws2wn2wn3wnwn
+/def sw_western2 = /to_recall %; run 2s3w %; open w %; run 4ws2wn2wn3wnw2nwnwn2w3nw3n4w3ne2n3e2nw
+/def sw_valleyroad = /to_recall %; run 2s3w %; open w %; run 4ws2wn2wn3wnw2nwnw2n
+/def sw_nalondir = /to_recall %; run 2s3e %; open e %; run 3e8nwn
+/def sw_wyvern = /to_recall %; run 3sw2swdwn4w2swnws
+
+; more SWs here
+
+/def sw_hell = /to_recall %; run 2s3e2nwn %; open n %; run neds %; open up %; run u2nwdw
+/def sw_coven = /to_recall %; run 3s3w6s2e4sesw
+/def sw_labyrinth = /to_recall %; run 3sw2swuse2n2e3ne3n3wne
+/def sw_flats = /to_recall %; run 2s6eunuesu
+/def sw_goldrush = /to_recall %; run 2s3e %; open east %; run 3eun2udnw4n
+/def sw_reme = /to_recall %; run 2s3e %; open east %; run 6en2en2e2s
+/def sw_wayhouse = /to_recall %; run 2s3w4ne %; open s %; run s3wnw2n2w2es2es
+/def sw_goblin = /to_recall %; run 4sds4e2ne8d %; open w %; run w10n %; open e %; run e
+/def sw_earth = /to_recall %; run 2s3w4ne %; open s %; run s3w2n %; open s %; run s2wn4w %; enter ice
+/def sw_soul = /to_recall %; run 2s3w4ne %; open s %; run s3wnw
+/def sw_citadel = /to_recall %; run 2s3e %; open east %; run 3eun2ud2s2en2es
+/def sw_paradise = /to_recall %; run 4sds4eu7wd3sw
+/def sw_killing = /to_recall %; run 2s3w4ne %; open south %; run s3w2n %; open south %; run 10sw2sw2s3w3s4es
+/def sw_jenny =  /to_recall %; run 2s3w4ne %; open s %; run s3wnwn2es %; open s %; run 2s2eu3w %; open north %; run n %; enter portal %; open east %; run e
+/def sw_stone = /to_recall %; run 2s3w4n2e5nw2n8ws2w2sws3w2n
+/def sw_talsa = /to_recall %; run 3sw2sws4seswsw %; enter ladder
+/def sw_falcovnia = /to_recall %; run 3sw2swd3wnune2nen4eseu
+/def sw_scarred = /to_recall %; run 2s3e %; open e %; run 3eunus2nwswnenes2ue %; en crack
+/def sw_bliss = /to_recall %; run 4sdnwnwu2wse
+/def sw_losttime = /to_recall %; run 3sw2swd3wsws2wu
+/def sw_anthrox = /to_recall %; run 8swswnde2uws2wnw3n4w3n
+/def sw_monastery = /to_recall %; run 4sds4eu9w3su2wne
+/def sw_st:tng = /to_recall %; run 3sw2s2w %; open east %; run e3s2es4es2es %; open south %; run 2s2eu3w %; open north %; n %; enter portal %; open east %; run e2s2e2u2w %; open north %; run 2n %; enter tv
+/def sw_seven = /to_recall %; run 3sw2swuse2n2e2nw6swn
+/def sw_starwars = /to_recall %; run 3sw2s2w %; open e %; run e
+/def sw_diamondreach = /to_recall %; run 8swswnde2uw
+/def sw_northstar = /to_recall %; run 3sw2sws5nu %; open n %; run n %; enter orb %; open w %; run w
+/def sw_darklight = /to_recall %; run 3sw2sws2enen5u9nu %; open up %; run un2d3n2en
+/def sw_pompeii = /to_recall %; run 2s7ws %; open s %; run se2sesene3n
+/def sw_tai = /to_recall %; run 3sw2swd %; run 3wn2w2swn2wse
+/def sw_halls = /to_recall %; run 4sds4eu7wd7se
+/def sw_stonekeep = /to_recall %; run 2s3e %; open east %; run 3eun2ud2s2en2ene3ndwnwnun2d
+/def sw_shadar =  /to_recall %; run 2s3e2nwn %; open n %; run neds %; open up %; run u2nw2dene11n2eu
+/def sw_deathtrap = /to_recall %; run 4sds4e2ne8d %; open w %; run w2s2w4s15w2s2w %; open west %; run 3w2n
+/def sw_rokugan = /to_recall %; run 8swswnde2us
+/def sw_ft = /to_recall %; run 6sw2sende2uew
+/def sw_circus = /to_recall %; run 4sdnwnwu4sesw2s
+/def sw_casino = /to_recall %; run 8ses2es9e
+/def sw_smurf = /to_recall %; run 3sw2swu7swse3n
+/def sw_darkelf = /to_recall %; run 4sds4e2ne8d %; open west %; run w12nu
+/def sw_ft2 = /to_recall %; run 6sw2sende2ue
+/def sw_sanctity = /to_recall %; run 2s3e %; open east %; run 3eununws
+/def sw_gilda = /to_recall %; run 3sw2sws2w3sen
+/def sw_tir = /to_recall %; run 3sw2swd3ws5e8n3en3n2e2nwnwsw
+/def sw_eighteen = /to_recall %; run 2s9en2ene4n %; open down %; run 4dws
+/def sw_courts = /to_recall %; run 2s3w4ne %; open s %; run s3wnw2n4wn2w2nwnws2w3s2ws2wnwne
+/def sw_slaughterhouse = /to_recall %; run 2s3w4ne %; open s %; run s3w2n2en
+/def sw_verdure = /to_recall %; run 4sds4eu6n %; open north %; run 4nw2s6w3sen
+/def sw_dragon = /to_recall %; run 3sw2swns2e3nw %; open north %; run 3n %; open west %; run wds4wd2e3s5u
+/def sw_zyian = /to_recall %; run 2s3e %; open east %; run 3eun2ud2s2esen
+/def sw_desertdoom = /to_recall %; run 2s6eunuesunu
+/def sw_foolish = /to_recall %; run 3sw2swdwn3esese8su
+/def sw_nanjiki = /to_recall %; run 3sw2swdwn4w2swnwse5n3es4eses
+/def sw_desertprison = /to_recall %; run 3sw2sws5nun %; enter orb %; run e
+/def sw_into = /to_recall %; run 2s3w4n2e5nw2n8w3nenenwn2wnw2ndese
+/def sw_christmas = /to_recall %; run 2s3w4ne %; open south %; run s3w2n %; open s %; run s2wn3wn
+/def sw_peaceful = /to_recall %; run 2s3w4ne %; open s %; run s3w2n %; open s %; run 10sw2sw2s3w4n
+/def sw_drageran = /to_recall %; run 2s3w4ne %; open s %; run s3wnw2n4wn2w2nwne3s7enen
+/def sw_myst = /to_recall %; run 2s3w4ne %; open s %; run s3wnw2nwn
+/def sw_angband = /to_recall %; run 2s3w4ne %; open s %;  run s3w2n10sw2sw2s3w3nun2un2uwndn
+/def sw_cougarian = /to_recall %; run 2s3w4ne %; open s %; run s3wnw2nw2s7en4e3n2e5n2e2n
+/def sw_unearthly = /to_recall %; run 3sw2s2weswnw3s
+/def sw_school = /to_recall %; run 2s3w4ne %; open s %; run s3w2nen
+/def sw_reman = /to_recall %; run 2s3e %; run 6en2en2e2s6e2s3e %; open down %; run dw
+/def sw_arisian = /to_recall %; run 3sw2s2w %; open east %; run e3s2es3e2s4es
+/def sw_winterfell = /to_recall %; run 2s3e2nwn %; open n %; run neds %; open up %; run u2nw2de2n
+/def sw_mossflower = /to_recall %; run 2s3w4n2e5nw2n7wn
+/def sw_mountains = /to_recall %; run 2s3w4ne %; open s %; run s3w2n %; open south %; run 10sw2sw2s3wn
+/def sw_tree = /to_recall %; run 3sw2swd2wnunu
+/def sw_lagoon = /to_recall %; run 3sw2swd3wsw2nwse
+/def sw_dread = /to_recall %; run 8swswnde2unsw
+/def sw_cthos = /to_recall %; run 3sw2swuse2n2e3ne4n
+/def sw_avian = /to_recall %; run 4sds4eu9w3su2wn2enu
+/def sw_blackrose = /to_recall %; run 2s3e %; open e %; run 3eunuw6s2wseu
+/def sw_blackadder = /to_recall %; run 2s3w4ne %; open s %; run s3w2n %; open s %; run s2wn3ws2w3s2ws4wsws2wn %; open north %; run n
+/def sw_onslaught = /to_recall %; run 3sw2swd2es
+/def sw_cataclysm = /to_recall %; run 3sw2swns2e4nes
+/def sw_icy = /to_recall %; run 2s3w %; open west %; run 4ws %; open south %; run se3s2wsw
+/def sw_astral = /to_recall %; run 3sw2s2w %; open e %; run eswne2w2swsd
+/def sw_artificer = /to_recall %; run 2s3w4ne %; open s %; run s3w2n %; open s %; run 10sw2sw2s3w3se2n
+
+; Define the connection to Aardwolf:
+/addworld Aardwolf aardwolfmud.org 4010
+
+
+; POKER STUFF
+/def gamelist = poker gamelist
+/def gameinfo = poker gameinfo %{1}
+/def jackpot = poker jackpot
+/def hands = poker hands
+/def cardstyle = poker cardstyle %{1}
+/def buyin = poker buyin %{1} %{2}
+/def rescind = poker rescind %{1}
+/def decline = poker decline %{1}
+/def break = poker break
+/def cashout = poker cashout
+/def watch = poker watch %{1}
+/def leave = poker leave
+/def rebuy = poker rebuy
+/def cards = poker cards
+/def bets = poker bets
+/def show = poker show
+/def chips = poker chips
+
