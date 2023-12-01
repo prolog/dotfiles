@@ -40,8 +40,8 @@
 /def owl3 = %{1} ( %{-1} ) O o . @y>@Y^@W)
 
 ; make pupping quicker
-/def d = back d %; balor %; spiral %; spiral %; spiral %; spiral %; spiral %; spiral
-/def g = back g %; balor %; spiral %; spiral %; spiral %; spiral %; spiral %; spiral
-/def b = back b %; balor %; spiral %; spiral %; spiral %; spiral %; spiral %; spiral
-/def f = back fea %; balor %; spiral %; spiral %; spiral %; spiral %; spiral %; spiral
-/def c = back cl %; balor %; spiral %; spiral %; spiral %; spiral %; spiral %; spiral
+/def d = back d %; spiral %; spiral %; spiral %; spiral %; spiral %; spiral
+/def g = back g %; spiral %; spiral %; spiral %; spiral %; spiral %; spiral
+/def b = back b %; spiral %; spiral %; spiral %; spiral %; spiral %; spiral
+/def f = back fea %; spiral %; spiral %; spiral %; spiral %; spiral %; spiral
+/def c = back cl %; spiral %; spiral %; spiral %; spiral %; spiral %; spiral
