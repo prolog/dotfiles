@@ -1,8 +1,8 @@
 ; Tir's tricks
 ;
-; Written by Tir <jcd748@mail.usask.ca>
+; Written by Tir <julianclday@gmail.com>
 ; Mar 2007
-; Updated Jul 2021
+; Updated Jul 2021, Oct 2026
 
 /echo Loading Aardwolf macros and triggers.
 

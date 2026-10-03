@@ -1,7 +1,7 @@
 ; General triggers.
 
 ; void trigger
-/def -t"*Your eyes glaze over." getback = who fastfucker %; who boring
+/def -t"*Your eyes glaze over." getback = who sprite %; who boring
 
 ; wakeup trigger
 /def -t"*In your dreams, or what?" wakeup = wake

@@ -1,13 +1,13 @@
 ; Tir's tricks
 ;
-; Written by Tir <jcd748@mail.usask.ca>
+; Written by Tir <julianclday@gmail.com>
 ; October 2005
 
 
 /echo Loading Aardwolf macros and triggers.
 
 ; void trigger
-/def -t"*You disappear into the void." getback = who sucker %; who boring
+/def -t"*You disappear into the void." getback = who sprite %; who boring
 
 ; auto triggers - skills and wakeup
 /def -t"*In your dreams, or what?" wakeup = wake
